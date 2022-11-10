@@ -82,6 +82,15 @@ body header {
     border-radius: 15px;
     margin-right: 10px;
 }
+.search-bar-wrapper {
+    width: 100%;
+}
+.search-bar-wrapper .search-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* HEADER */
 /* BRAND NAV */
 .brand-wrapper .brand-item {
@@ -92,7 +101,18 @@ body header {
     color: tomato;
     font-weight: bold;
 }
-
+/* SEARCH BAR */
+#search-bar-input {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid black;
+    text-align: center;
+    width: 500px;
+    height: 2rem;
+}
+#search-bar-input:focus {
+    outline: auto;
+}
 /* WHISHLIST CONTAINER */
 .wishlist-card-container {
     box-sizing: border-box;
