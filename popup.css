@@ -112,6 +112,17 @@ body header {
 .wishlist-card-container .card-name {
     font-size: 24px;
 }
+.wishlist-card-container .card-detail {
+    color: black;
+    text-decoration: none;
+    line-height: 2.5rem;
+    background-color: rgba(33, 0, 180, 0.25);
+    width: 10rem;
+    text-align: center;
+}
+.wishlist-card-container .card-detail:active {
+    color: transparent;
+}
 .wishlist-card-container .card-price {
 }
 .wishlist-card-container .card-info {

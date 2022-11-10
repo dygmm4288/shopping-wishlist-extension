@@ -1,4 +1,5 @@
 const ITEM = 'ITEM';
+const GUGUSURL = 'https://www.gugus.co.kr/shopping/goodsview.asp?num=';
 const BRAND_ACTIVE = 'active';
 const BrandWrapper = selector('.brand-wrapper');
 const WishlistCardContainer = selector('.wishlist-card-container');
@@ -51,6 +52,10 @@ const setCardPage = (items, predi) => {
                 return imgLi;
             });
 
+            const DetailLink = ce('a');
+            DetailLink.href = GUGUSURL + item.id;
+            DetailLink.innerText = 'Detail';
+
             appendChild(imgUl, imgs);
 
             const priceSpan = ce('span');
@@ -71,9 +76,11 @@ const setCardPage = (items, predi) => {
             priceSpan.classList.add('card-price');
             infoContainer.classList.add('card-info');
             removeButton.classList.add('button');
+            DetailLink.classList.add('card-detail');
+            DetailLink.classList.add('button');
 
             /* appendChild */
-            appendChild(infoContainer, [priceSpan, removeButton]);
+            appendChild(infoContainer, [priceSpan, DetailLink, removeButton]);
 
             appendChild(Card, [nameSpan, imgUl, infoContainer]);
             return Card;
