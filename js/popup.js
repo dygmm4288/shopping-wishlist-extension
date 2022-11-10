@@ -3,6 +3,8 @@ const GUGUSURL = 'https://www.gugus.co.kr/shopping/goodsview.asp?num=';
 const BRAND_ACTIVE = 'active';
 const BrandWrapper = selector('.brand-wrapper');
 const WishlistCardContainer = selector('.wishlist-card-container');
+const SearchBarForm = selector('form.search-bar');
+let Items;
 
 const setBrandPage = (items) => {
     const brands = Array('All', ...new Set(items.map((i) => i.brand)));
@@ -137,6 +139,35 @@ const handleBrand = (brand) => () => {
         }
     });
 };
+const handleSearch = (e) => {
+    if (!Items) {
+        chrome.storage.local.get(ITEM, (value) => {
+            if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError);
+                return;
+            }
+            Items = value[ITEM];
+        });
+    }
+    if (Items) {
+        const inputValue = e.target.value;
+        if (!inputValue) {
+            setCardPage(Items, identity);
+            return;
+        }
+        setCardPage(
+            Items.filter((item) => {
+                return item.name.includes(inputValue);
+            }),
+            identity,
+        );
+    }
+};
 (() => {
     InitPage();
+    const SearchInput = SearchBarForm.querySelector('input');
+    SearchBarForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+    });
+    SearchInput.addEventListener('keyup', handleSearch);
 })();
