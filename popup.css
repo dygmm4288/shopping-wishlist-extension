@@ -32,9 +32,9 @@ body {
     background-color: rgba(0, 0, 0, 0.05);
 }
 /* LAYOUT */
-header {
+body header {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 25px;
     height: auto;
 }
 .brand-nav {
@@ -44,9 +44,12 @@ header {
 .brand-wrapper {
     display: flex;
     flex-direction: row;
-    width: 50%;
-    justify-content: space-between;
+    width: 80%;
+    justify-content: space-around;
     margin: 25px auto;
+
+    flex-wrap: nowrap;
+    overflow: scroll;
 }
 .wishlist-wrapper {
     display: flex;
@@ -70,6 +73,14 @@ header {
     flex-direction: row;
     flex-wrap: nowrap;
     overflow: scroll;
+    padding: 15px;
+    max-height: 600px;
+}
+.wishlist-card-container > li ul img {
+    height: 100%;
+    max-width: 300px;
+    border-radius: 15px;
+    margin-right: 10px;
 }
 /* HEADER */
 /* BRAND NAV */
