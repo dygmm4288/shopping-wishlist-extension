@@ -91,6 +91,22 @@ body header {
     justify-content: center;
     align-items: center;
 }
+.overlay {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.overlay.hidden {
+    z-index: -1000;
+    opacity: 0;
+    transition: all 0.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
 /* HEADER */
 /* BRAND NAV */
 .brand-wrapper .brand-item {
@@ -159,4 +175,65 @@ body header {
     opacity: 0.8;
     outline: none;
     border: transparent;
+}
+/* Slider */
+.slider-wrapper {
+    background-color: black;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+    border-radius: 20px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+    opacity: 1;
+}
+.slider-wrapper.hidden {
+    opacity: 0;
+}
+.slider-container {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    transition: left 0.5s ease-in-out;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+.slider-container .slider-item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.slider-wrapper .prev,
+.slider-wrapper .next {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 50px;
+    text-align: center;
+    transition: all 0.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.slider-wrapper .prev:hover,
+.slider-wrapper .next:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.slider-wrapper .prev {
+    right: 100%;
+    margin-right: 15px;
+}
+.slider-wrapper .next {
+    left: 100%;
+    margin-left: 15px;
+}
+.slider-wrapper .cur-index {
+    text-indent: -999999em;
 }

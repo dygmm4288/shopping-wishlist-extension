@@ -1,9 +1,15 @@
 const ITEM = 'ITEM';
+const HIDDEN = 'hidden';
 const GUGUSURL = 'https://www.gugus.co.kr/shopping/goodsview.asp?num=';
 const BRAND_ACTIVE = 'active';
 const BrandWrapper = selector('.brand-wrapper');
 const WishlistCardContainer = selector('.wishlist-card-container');
 const SearchBarForm = selector('form.search-bar');
+const Overlay = selector('.overlay');
+const SliderWrapper = selector('.slider-wrapper');
+const SliderContainer = selector('.slider-container');
+const SliderPrev = selector('.prev');
+const SldierNext = selector('.next');
 let Items;
 
 const setBrandPage = (items) => {
@@ -45,12 +51,13 @@ const setCardPage = (items, predi) => {
             const ce = createElement;
             const Card = ce('li');
             const imgUl = ce('ul');
-            const imgs = item.imgURL.map((src) => {
+            const imgs = item.imgURL.map((src, i) => {
                 const img = ce('img');
                 const imgLi = ce('li');
                 img.src = src;
                 img.alt = item.brand.name + 'image';
                 appendChild(imgLi, img);
+                img.addEventListener('click', setSlider(item, i));
                 return imgLi;
             });
 
@@ -72,7 +79,6 @@ const setCardPage = (items, predi) => {
             /* Event */
             removeButton.innerText = 'Remove';
             removeButton.addEventListener('click', handleRemove(item.id));
-
             /* Class */
             nameSpan.classList.add('card-name');
             priceSpan.classList.add('card-price');
@@ -159,6 +165,7 @@ const handleSearch = (e) => {
         const inputValue = e.target.value;
         if (!inputValue) {
             setCardPage(Items, identity);
+
             return;
         }
         setCardPage(
@@ -169,6 +176,76 @@ const handleSearch = (e) => {
         );
     }
 };
+/* Sldier */
+const setSlider = (item, index) => () => {
+    const ce = createElement;
+
+    const SLIDER_ITEM = 'slider-item';
+    const indexElement = selector('.cur-index');
+    indexElement.innerText = index;
+    const liArray = [];
+    item.imgURL.forEach((url, i) => {
+        const img = ce('img');
+        const li = ce('li');
+        img.src = url;
+        img.alt = item.name + i + 'img';
+        li.style.opacity = '0';
+        appendChild(li, img);
+        li.classList.add(SLIDER_ITEM);
+        liArray.push(li);
+    });
+    SliderContainer.innerHTML = '';
+    appendChild(SliderContainer, liArray);
+    handleOverlay();
+
+    const firstImg = liArray[index].querySelector('img');
+    const width = firstImg.clientWidth;
+    const height = firstImg.clientHeight;
+
+    liArray[index].style.opacity = '1';
+    SliderWrapper.style.width = `${width}px`;
+    SliderWrapper.style.height = `${height}px`;
+    SliderWrapper.style.top = window.scrollY + height - height / 2 + 'px';
+};
+const moveSlide = (index) => {
+    const item = selectorAll('.slider-container li')[index];
+    const img = item.querySelector('img');
+    const width = img.offsetWidth;
+    const height = img.offsetHeight;
+
+    SliderContainer.style.width = `${width}px`;
+    SliderContainer.style.height = `${height}px`;
+
+    item.style.opacity = '1';
+    selectorAll('.slider-container li').forEach((elem, i) => {
+        if (i !== index) {
+            elem.style.opacity = '0';
+        }
+    });
+};
+
+const handleSlider = (dir) => () => {
+    const indexElement = selector('.cur-index');
+    const curIndex = parseInt(indexElement.innerText);
+    const size = selectorAll('.slider-container .slider-item').length;
+    // left
+    if (dir === 0) {
+        const nextIndex = (curIndex - 1 + size) % size;
+        moveSlide(nextIndex);
+        indexElement.innerText = nextIndex;
+    } else {
+        // right
+        const nextIndex = (curIndex + 1) % size;
+        moveSlide(nextIndex);
+        indexElement.innerText = nextIndex;
+    }
+};
+const handleOverlay = () => {
+    Overlay.classList.toggle(HIDDEN);
+    SliderWrapper.classList.toggle(HIDDEN);
+    Overlay.style.height = `${document.body.clientHeight}px`;
+};
+
 (() => {
     InitPage();
     const SearchInput = SearchBarForm.querySelector('input');
@@ -176,4 +253,10 @@ const handleSearch = (e) => {
         e.preventDefault();
     });
     SearchInput.addEventListener('keyup', handleSearch);
+    const PrevControl = selector('.slider-wrapper .prev');
+    const NextControl = selector('.slider-wrapper .next');
+
+    PrevControl.addEventListener('click', handleSlider(0));
+    NextControl.addEventListener('click', handleSlider(1));
+    Overlay.addEventListener('click', handleOverlay);
 })();
