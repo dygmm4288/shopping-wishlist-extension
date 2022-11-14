@@ -127,13 +127,19 @@ const handleBrand = (brand) => () => {
             elem.classList.add(BRAND_ACTIVE);
         }
     });
+    const inputValue = selector('#search-bar-input').value;
+
     chrome.storage.local.get(ITEM, (value) => {
         if (chrome.runtime.lastError) {
             console.error(chorme.runtime.lastError);
             return;
         }
         if (brand !== 'All') {
-            setCardPage(value[ITEM], (item) => item.brand === brand);
+            setCardPage(
+                value[ITEM],
+                (item) =>
+                    item.name.includes(inputValue) && item.brand === brand,
+            );
         } else {
             setCardPage(value[ITEM], identity);
         }
