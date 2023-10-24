@@ -10,4 +10,9 @@ const appendChild = (parent, childs) => {
     } else {
         parent.appendChild(childs);
     }
+    return parent;
+};
+const log = (x) => {
+    console.log(x);
+    return x;
 };

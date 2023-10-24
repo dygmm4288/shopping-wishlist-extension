@@ -47,9 +47,8 @@ body header {
     width: 80%;
     justify-content: space-around;
     margin: 25px auto;
-
     flex-wrap: nowrap;
-    overflow: scroll;
+    /* overflow: auto; */
 }
 .wishlist-wrapper {
     display: flex;
@@ -72,7 +71,7 @@ body header {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    overflow: scroll;
+    overflow: auto;
     padding: 15px;
     max-height: 600px;
 }
@@ -106,6 +105,7 @@ body header {
     z-index: -1000;
     opacity: 0;
     transition: all 0.1s cubic-bezier(0.65, 0, 0.35, 1);
+    display: none;
 }
 /* HEADER */
 /* BRAND NAV */
@@ -188,7 +188,7 @@ body header {
     opacity: 1;
 }
 .slider-wrapper.hidden {
-    opacity: 0;
+    display: none;
 }
 .slider-container {
     position: absolute;

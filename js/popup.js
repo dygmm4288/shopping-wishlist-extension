@@ -134,21 +134,21 @@ const handleBrand = (brand) => () => {
         }
     });
     const inputValue = selector('#search-bar-input').value;
-
     chrome.storage.local.get(ITEM, (value) => {
         if (chrome.runtime.lastError) {
             console.error(chorme.runtime.lastError);
             return;
         }
-        if (brand !== 'All') {
-            setCardPage(
-                value[ITEM],
-                (item) =>
-                    item.name.includes(inputValue) && item.brand === brand,
-            );
-        } else {
-            setCardPage(value[ITEM], identity);
-        }
+
+        setCardPage(
+            log(
+                value[ITEM].filter((item) =>
+                    brand !== 'All' ? item.brand === brand : identity,
+                ),
+            ),
+            (item) =>
+                inputValue !== '' ? item.name.includes(inputValue) : identity,
+        );
     });
 };
 const handleSearch = (e) => {
@@ -160,21 +160,24 @@ const handleSearch = (e) => {
             }
             Items = value[ITEM];
         });
+        return;
     }
-    if (Items) {
-        const inputValue = e.target.value;
-        if (!inputValue) {
-            setCardPage(Items, identity);
 
-            return;
-        }
-        setCardPage(
-            Items.filter((item) => {
-                return item.name.includes(inputValue);
-            }),
-            identity,
+    const inputValue = e.target.value;
+    const selectedBrand = getSelectedBrand();
+    if (!inputValue) {
+        setCardPage(Items, (item) =>
+            selectedBrand !== 'All' ? item.brand === selectedBrand : identity,
         );
+        return;
     }
+
+    setCardPage(
+        Items.filter((item) =>
+            selectedBrand === 'All' ? identity : item.brand === selectedBrand,
+        ),
+        (item) => item.name.includes(inputValue),
+    );
 };
 /* Sldier */
 const setSlider = (item, index) => () => {
@@ -205,7 +208,15 @@ const setSlider = (item, index) => () => {
     liArray[index].style.opacity = '1';
     SliderWrapper.style.width = `${width}px`;
     SliderWrapper.style.height = `${height}px`;
-    SliderWrapper.style.top = window.scrollY + height - height / 2 + 'px';
+    var viewportHeight = window.innerHeight;
+    var elementHeight = SliderWrapper.offsetHeight;
+    var scrollTop = window.scrollY;
+    var topPosition = Math.max(
+        0,
+        scrollTop + (viewportHeight - elementHeight) / 2,
+    );
+
+    SliderWrapper.style.top = topPosition + 'px';
 };
 const moveSlide = (index) => {
     const item = selectorAll('.slider-container li')[index];
@@ -246,6 +257,15 @@ const handleOverlay = () => {
     Overlay.style.height = `${document.body.clientHeight}px`;
 };
 
+const getSelectedBrand = () => {
+    return log(Array.prototype.slice.call(selectorAll('.brand-item'))).reduce(
+        (c, elem) => {
+            if (elem.classList.contains(BRAND_ACTIVE)) c = elem.innerText;
+            return c;
+        },
+        'All',
+    );
+};
 (() => {
     InitPage();
     const SearchInput = SearchBarForm.querySelector('input');
