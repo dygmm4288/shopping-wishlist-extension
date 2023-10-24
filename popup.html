@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Wish List</title>
+        <link rel="stylesheet" href="/popup.css" />
+        <link rel="stylesheet" href="/reset.css" />
+    </head>
+    <body>
+        <header>
+            <h1>Wish List</h1>
+        </header>
+        <nav class="brand-nav">
+            <p>Brand</p>
+            <ul class="brand-wrapper">
+                <li class="brand-item active">All</li>
+            </ul>
+        </nav>
+        <div class="search-bar-wrapper">
+            <form class="search-bar">
+                <input
+                    id="search-bar-input"
+                    type="text"
+                    placeholder="검색어를 입력하세요"
+                />
+            </form>
+        </div>
+        <div class="wishlist-wrapper">
+            <ul class="wishlist-card-container"></ul>
+        </div>
+        <div class="overlay hidden"></div>
+        <div class="slider-wrapper hidden">
+            <ul class="slider-container"></ul>
+            <p class="cur-index">0</p>
+            <div class="prev">&lt;</div>
+            <div class="next">&gt;</div>
+        </div>
+
+        <script src="/js/helper.js"></script>
+        <script src="/js/element.js"></script>
+        <script src="/js/popup.js"></script>
+    </body>
+</html>
